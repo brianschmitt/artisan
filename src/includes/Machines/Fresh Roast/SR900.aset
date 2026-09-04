@@ -1,0 +1,73 @@
+[General]
+Delay=1000
+roasterheating_setup=3
+roastertype_setup=Fresh Roast SR900
+roastersize_setup=0.225
+roastersize_setup_default=0.225
+
+[Units]
+weight=g
+
+[Style]
+BTname=External
+ETname=Internal
+
+[RoC]
+DeltaET=false
+DeltaETlcd=false
+
+[DefaultButtons]
+buttonactions=0, 0, 0, 0, 0, 0, 5, 5
+buttonactionstrings=, , , , , , sr900(cool), sr900(stop)
+buttonvisibility=true, true, true, true, false, false, true, true
+extrabuttonactions=5, 0, 0
+extrabuttonactionstrings="sr900(altitude,0);sr900(voltage,1)", ,
+xextrabuttonactions=0, 5
+xextrabuttonactionstrings=, sr900(start)
+
+[events]
+default_etypes_set=1, 0, 0, 1, 0
+
+[Device]
+id=208
+
+[ExtraComm]
+extrabaudrate=9600, 9600
+extrabytesize=8, 8
+extracomport=COM1, COM1
+extraparity=O, O
+extrastopbits=1, 1
+extratimeout=0.5, 0.5
+
+[ExtraDev]
+extraCurveVisibility1=true, false, true, true, true, true, true, true, true, true
+extraCurveVisibility2=true, false, true, true, true, true, true, true, true, true
+extraDelta1=false, false, false, false, false, false, false, false, false, false
+extraDelta2=false, false, false, false, false, false, false, false, false, false
+extraFill1=0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+extraFill2=0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+extraLCDvisibility1=true, false, false, false, false, false, false, false, false, false
+extraLCDvisibility2=true, false, false, false, false, false, false, false, false, false
+extradevicecolor1=#ad0427ff, #808080ff
+extradevicecolor2=#43a7cfff, #808080ff
+extradevices=209, 210
+extramathexpression1=,
+extramathexpression2=,
+extraname1={3}, State
+extraname2={0}, Time
+
+[Sliders]
+eventsliderAlternativeLayout=false
+eventsliderBernoulli=0, 0, 0, 0
+eventsliderKeyboardControl=true
+eventslidercoarse=0, 0, 0, 0
+eventslidersflags=0, 1, 1
+eventslidertemp=0, 0, 0, 0
+eventsliderunits=, , ,
+slideractions=11, 0, 0, 11
+slidercommands="sr900(fan,{})", , , "sr900(heat,{})"
+sliderfactors=1, 1, 1, 1
+slidermax=9, 100, 100, 9
+slidermin=1, 0, 0, 0
+slideroffsets=0, 0, 0, 0
+slidervisibilities=1, 0, 0, 1

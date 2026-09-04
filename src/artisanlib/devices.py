@@ -4659,6 +4659,22 @@ class DeviceAssignmentDlg(ArtisanResizeablDialog):
                 ##########################
                 ####  DEVICE 207 is +MODBUS 1112 but +DEVICE cannot be set as main device
                 ##########################
+                ##########################
+                ####  DEVICE 208 is SR900 BT/ET
+                elif meter == 'SR900 BT/ET':
+                    self.aw.qmc.device = 208
+                    message = QApplication.translate('Message','Device set to {0}').format(meter)
+                    permission_status = self.aw.app.getBluetoothPermission(request=True)
+                    if permission_status is False:
+                        msg = QApplication.translate('Message','Bluetootooth access denied')
+                        QMessageBox.warning(None, #self, # only without super this one shows the native dialog on macOS under Qt 6.6.2 and later
+                            msg, msg)
+                ##########################
+                ####  DEVICE 209 is +SR900 Heater/Fan but +DEVICE cannot be set as main device
+                ##########################
+                ##########################
+                ####  DEVICE 210 is +SR900 State/Time but +DEVICE cannot be set as main device
+                ##########################
 
                 # ADD DEVICE:
 
@@ -4885,7 +4901,10 @@ class DeviceAssignmentDlg(ArtisanResizeablDialog):
                 1, # 204
                 1, # 205
                 1, # 206
-                1  # 207
+                1, # 207
+                9, # 208
+                9, # 209
+                9  # 210
                 ]
             #init serial settings of extra devices
             for i, _ in enumerate(self.aw.qmc.extradevices):

@@ -246,6 +246,9 @@ DEVICES: Final[list[str]] = [
     '+MQTT 910',                  #205
     '+MQTT 1112',                 #206
     '+MODBUS 1112',               #207
+    'SR900 BT/ET',                #208
+    '+SR900 Heater/Fan',          #209
+    '+SR900 State/Time',          #210
 ]
 
 
@@ -341,7 +344,9 @@ NON_TEMP_DEVICES : Final[dict[int,tuple[bool,bool]]] = {
             195: (True, True), # +Yocto Meteo Pressure
             198: (True, True), # +Orbiter Sound/Drum
             199: (True, True), # +Orbiter Damper/Heater
-            200: (True, True)  # +Orbiter Air/RoR
+            200: (True, True), # +Orbiter Air/RoR
+            209: (True, True), # +SR900 Heater/Fan
+            210: (True, True), # +SR900 State/Time
         }
 
 # ids of (main) Phidget devices (without a + in front of their name string) as well as Phidget TMP100, HUM100 or PRE1000
@@ -414,6 +419,7 @@ NON_SERIAL_DEVICES: Final[set[int]] = PHIDGET_DEVICES.union({
     176, # Aillio Bullet R2
     194, # +Yocto Meteo Hum/Temp
     195, # +Yocto Meteo Pressure
+    208, # SR900 BT/ET
 })
 
 # ids of special devices certain input filters should not be applied

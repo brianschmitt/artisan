@@ -596,6 +596,9 @@ class serialport:
                                    self.MQTT_910,                    #205
                                    self.MQTT_1112,                   #206
                                    self.MODBUS_1112,                 #207
+                                   self.SR900,                       #208
+                                   self.SR900_HeaterFan,             #209
+                                   self.SR900_State,                 #210
                                    ]
         #string with the name of the program for device #27
         self.externalprogram:str = 'test.py'
@@ -2397,6 +2400,44 @@ class serialport:
             t1 = self.aw.ikawa.humidity_roc_dir
             t2 = self.aw.ikawa.humidity_roc
         return tx,t1,t2 # time, Humidity/Moisture RoR Direction (chan2), Humidity/Moisture RoR (chan1)
+
+    def SR900(self) -> tuple[float,float,float]:
+        tx = self.aw.qmc.timeclock.elapsedMilli()
+        t1:float = -1
+        t2:float = -1
+        if self.aw.sr900 is not None:
+            self.aw.sr900.TX = tx
+            t1 = self.aw.sr900.ET
+            t2 = self.aw.sr900.BT
+            if self.aw.qmc.mode == 'C':
+                # the roaster reports natively in Fahrenheit
+                if t1 != -1:
+                    t1 = fromFtoCstrict(t1)
+                if t2 != -1:
+                    t2 = fromFtoCstrict(t2)
+        return tx,t1,t2 # time, ET (chan2), BT (chan1)
+
+    def SR900_HeaterFan(self) -> tuple[float,float,float]:
+        tx = self.aw.qmc.timeclock.elapsedMilli()
+        t1:float = -1
+        t2:float = -1
+        if self.aw.sr900 is not None:
+            if self.aw.sr900.TX:
+                tx = self.aw.sr900.TX
+            t1 = self.aw.sr900.fan
+            t2 = self.aw.sr900.heater
+        return tx,t1,t2 # time, Fan (chan2), Heater (chan1)
+
+    def SR900_State(self) -> tuple[float,float,float]:
+        tx = self.aw.qmc.timeclock.elapsedMilli()
+        t1:float = -1
+        t2:float = -1
+        if self.aw.sr900 is not None:
+            if self.aw.sr900.TX:
+                tx = self.aw.sr900.TX
+            t1 = self.aw.sr900.roast_time
+            t2 = self.aw.sr900.state
+        return tx,t1,t2 # time, roast time (chan2), State (chan1)
 
     def TEVA18B(self) -> tuple[float,float,float]:
         tx = self.aw.qmc.timeclock.elapsedMilli()

@@ -304,6 +304,9 @@ class ClientBLE(QObject):
                     _log.debug('notification on characteristic %s started', notify_uuid)
                 except BleakCharacteristicNotFoundError:
                     _log.debug('start_notifications: characteristic %s not found', notify_uuid)
+            else:
+                # without this the missing subscription is silent and the device just stays quiet
+                _log.warning('start_notifications: characteristic %s not offered by the connected device', notify_uuid)
 
     # Notifications are stopped automatically on disconnect, so this method does not need to be called
     # unless notifications need to be stopped before the device disconnects
@@ -335,6 +338,7 @@ class ClientBLE(QObject):
             # scan and connect
             # NOTE: re-connecting a bleak client by address on reconnect can lead to instabilities thus we re-scan always
             service_uuid:str|None
+            connected:bool = False # set to True once the connected client offers the requested service
             self._connected_service_uuid = None
             self._connected_device_name = None
             self._ble_client, service_uuid, device_name = ble.scan_and_connect(
@@ -366,10 +370,14 @@ class ClientBLE(QObject):
                     self._connected_device_name = None
                 else:
                     # successfully connected
-                    self.on_connect()
+                    connected = True
             if self._ble_client is not None:
                 # start notifications
                 self.start_notifications()
+                if connected:
+                    # NOTE: on_connect() is signalled only after the notifications got established such that
+                    # implementations can already send commands expecting a notified response from on_connect()
+                    self.on_connect()
                 # await disconnect
                 self._disconnected_event.clear()
                 await self._disconnected_event.wait()
