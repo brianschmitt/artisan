@@ -304,9 +304,6 @@ class ClientBLE(QObject):
                     _log.debug('notification on characteristic %s started', notify_uuid)
                 except BleakCharacteristicNotFoundError:
                     _log.debug('start_notifications: characteristic %s not found', notify_uuid)
-            else:
-                # without this the missing subscription is silent and the device just stays quiet
-                _log.warning('start_notifications: characteristic %s not offered by the connected device', notify_uuid)
 
     # Notifications are stopped automatically on disconnect, so this method does not need to be called
     # unless notifications need to be stopped before the device disconnects

@@ -2415,6 +2415,19 @@ class serialport:
                     t1 = fromFtoCstrict(t1)
                 if t2 != -1:
                     t2 = fromFtoCstrict(t2)
+
+            # autoCHARGE/autoDROP triggered by machine.
+            # A fluid bed is charged into a cold chamber and its BT rises monotonically from ambient,
+            # so there is no BT break for the generic autoCHARGE detection to find and CHARGE has to
+            # come from the roaster. Both states are reported whether they were entered by our own
+            # command or at the roaster itself, and also when Artisan connects to a roast already
+            # under way, for which the roaster sends no STARTED at all
+            if self.aw.qmc.flagstart:
+                if self.aw.qmc.timeindex[0] == -1 and self.aw.sr900.isRoasting:
+                    self.aw.qmc.markChargeSignal.emit(True) # CHARGE
+                elif (self.aw.qmc.timeindex[0] > -1 and self.aw.qmc.timeindex[6] == 0 and
+                        self.aw.sr900.isCooling):
+                    self.aw.qmc.markDropSignal.emit(True) # DROP
         return tx,t1,t2 # time, ET (chan2), BT (chan1)
 
     def SR900_HeaterFan(self) -> tuple[float,float,float]:

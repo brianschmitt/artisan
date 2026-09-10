@@ -1,5 +1,9 @@
 [General]
 Delay=1000
+ETlcd=false
+dropDuplicates=true
+dropDuplicatesLimit=0.01
+KeepON=true
 roasterheating_setup=3
 roastertype_setup=Fresh Roast SR900
 roastersize_setup=0.225
@@ -8,11 +12,9 @@ roastersize_setup_default=0.225
 [Units]
 weight=g
 
-[Style]
-BTname=External
-ETname=Internal
-
 [RoC]
+DeltaBT=true
+DeltaBTlcd=true
 DeltaET=false
 DeltaETlcd=false
 
@@ -21,7 +23,7 @@ buttonactions=0, 0, 0, 0, 0, 0, 5, 5
 buttonactionstrings=, , , , , , sr900(cool), sr900(stop)
 buttonvisibility=true, true, true, true, false, false, true, true
 extrabuttonactions=5, 0, 0
-extrabuttonactionstrings="sr900(altitude,0);sr900(voltage,1)", ,
+extrabuttonactionstrings="sr900(altitude,0);sr900(voltage,1);slider(0,9);slider(3,1);sr900(fan,9);sr900(heat,1)", ,
 xextrabuttonactions=0, 5
 xextrabuttonactionstrings=, sr900(start)
 
@@ -29,6 +31,7 @@ xextrabuttonactionstrings=, sr900(start)
 default_etypes_set=1, 0, 0, 1, 0
 
 [Device]
+Controlbuttonflag=true
 id=208
 
 [ExtraComm]
@@ -56,6 +59,16 @@ extramathexpression2=,
 extraname1={3}, State
 extraname2={0}, Time
 
+[Quantifiers]
+clusterEventsFlag=false
+eventquantifierSV=1, 0, 0, 1
+eventquantifieraction=0, 0, 0, 0
+quantifieractive=0, 0, 0, 0
+quantifiercoarse=0, 0, 0, 0
+quantifiermax=9, 100, 100, 9
+quantifiermin=1, 0, 0, 0
+quantifiersource=3, 0, 0, 2
+
 [Sliders]
 eventsliderAlternativeLayout=false
 eventsliderBernoulli=0, 0, 0, 0
@@ -71,3 +84,25 @@ slidermax=9, 100, 100, 9
 slidermin=1, 0, 0, 0
 slideroffsets=0, 0, 0, 0
 slidervisibilities=1, 0, 0, 1
+
+[ArduinoPID]
+pidCycle=2000
+pidPositiveTarget=4
+pidSource=1
+
+[Alarms]
+alarmaction=7, 14, 15
+alarmbeep=0, 0, 0
+alarmcond=2, 2, 2
+alarmflag=0, 0, 0
+alarmguard=-1, -1, -1
+alarmnegguard=-1, -1, -1
+alarmoffset=0, 0, 0
+alarmsource=4, 4, 4
+alarmstrings=# START recording once the roaster reports roasting, # COOL END once the roaster returned to idle after DROP, # OFF one sample after COOL END was marked
+alarmtemperature=1, 0, 0
+alarmtime=9, 6, 7
+alarmsetlabel=
+alarmsfile=
+loadAlarmsFromBackground=false
+loadAlarmsFromProfile=false
